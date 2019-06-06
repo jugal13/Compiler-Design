@@ -76,3 +76,9 @@
     2. Array Symbol Table
     3. Shorthand operator using lex
     4. Scientific number validation using lex
+    5. Data Type validation using lex
+    6. Expression validation using lex
+    7. If statement validation using lex
+    8. Multiline comment validation using lex
+    9. Number validation using lex
+    10. String validation using lex
