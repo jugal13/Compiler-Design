@@ -1,49 +1,27 @@
 #include <iostream>
 #include <fstream>
-#include <string>
+
 using namespace std;
-int main()
-{
-    ifstream infile("file.txt");
-    string line;
-    int line_number = 0;
-    int line_error;
-    int i;
-    bool flag = false;
-    while (getline(infile, line))
-    {
-        line_number++;
-        if (!flag)
-        {
-            for (i = 0; i < line.length(); i++)
-            {
-                if (line[i] == '"')
-                {
-                    flag = true;
-                    line_error = line_number;
-                    break;
-                }
+int main(){
+    ifstream fileStream("file.txt");
+    string s;
+    int lineNumber = 1;
+    while(getline(fileStream,s)){
+
+        int count = 0;
+
+        for(int i =0 ; i<s.size();i++){
+            if(s[i]=='"'){
+                count++;
             }
         }
-        i++;
-        if (flag)
-        {
-            for (; i < line.length(); i++)
-            {
-                if (line[i] == '"')
-                {
-                    flag = false;
-                    break;
-                }
-            }
+        if(count%2 !=0){
+            cout<<"String not closed on line "<<lineNumber<<endl;
         }
+        else if(count>0){
+            cout<<"Valid String on line "<<lineNumber<<endl;
+        }
+        lineNumber++;
     }
-    if (!flag)
-    {
-        cout << "No error" << endl;
-    }
-    else
-    {
-        cout << "String opened at " << line_error << " but not closed" << endl;
-    }
+
 }
