@@ -1,48 +1,35 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 using namespace std;
-int main()
-{
-    ifstream infile("test.cpp");
-    string line;
-    int line_number = 0;
-    int line_error;
-    int i;
-    bool flag = false;
-    while (getline(infile,line)) 
-    {
-        line_number++;
-        if (!flag)
-        {
-            for (i=0; i<line.length(); i+=2)
-            {
-                if(line[i]=='/' && line[i+1]=='*')
-                {
-                    flag=true;
-                    line_error=line_number;
-                    break;
+
+
+int main(){
+    ifstream fileStream("test.cpp");
+    string s;
+    int start = -1;
+    int count = 0 ;
+    int lineNumber = 1;
+    while(getline(fileStream,s)){
+        for(int i = 0 ; i<s.size()-1;i++){
+            if(s[i]=='/' && s[i+1]=='*'){
+                    start = lineNumber;
+                    count=1;
+            }
+            else if(s[i]=='*' && s[i+1]=='/'){
+                count--;
+                if(count<0){
+                        /// Cannot have more than one multiline comment closing symbol
+                        cout<<"Opening comment symbol not found for closing symbol at line "<<lineNumber<<endl;
+                    count =0 ;
                 }
             }
         }
-        if (flag)
-        {
-            for (;i<line.length(); i+=2)
-            {
-                if(line[i]=='*' && line[i+1]=='/')
-                {
-                    flag=false;
-                    break;
-                }
-            }
-        }
+        lineNumber++;
     }
-    if(!flag)
-    {
+    if(count==0){
         cout<<"No error"<<endl;
-    }
-    else
-    {
-        cout<<"Multiline comment started at "<<line_error<<" but not closed"<<endl;
+    } 
+    else{
+        cout<<"Comment not closed at line "<<start<<endl;
     }
 }
